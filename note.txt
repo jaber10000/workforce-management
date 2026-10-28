@@ -1,0 +1,1 @@
+python -m app.scripts.import_employees ../demo_data/Employee_Weekly_Roster_Corrected.xlsx

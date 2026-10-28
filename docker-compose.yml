@@ -1,0 +1,26 @@
+# Local production-like stack:  POSTGRES_PASSWORD=... SECRET_KEY=... docker compose up --build
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: workforce_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: workforce_roster
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U workforce_user -d workforce_roster"]
+      interval: 5s
+      retries: 10
+  api:
+    build: ./backend
+    depends_on:
+      db: {condition: service_healthy}
+    environment:
+      DATABASE_URL: postgresql+psycopg://workforce_user:${POSTGRES_PASSWORD}@db:5432/workforce_roster
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY (long random string)}
+      ENVIRONMENT: prod
+      AUTH_REQUIRED: "true"
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173}
+    ports: ["8000:8000"]
+volumes:
+  pgdata:

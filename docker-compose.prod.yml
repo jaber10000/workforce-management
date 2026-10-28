@@ -1,0 +1,82 @@
+# Production stack: PostgreSQL + API + Caddy (automatic HTTPS, serves the built frontend) + scheduled backups.
+#   cp .env.production.example .env.production   # fill in every value
+#   docker compose --env-file .env.production -f docker-compose.prod.yml up -d --build
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: workforce_user
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: workforce_roster
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U workforce_user -d workforce_roster"]
+      interval: 5s
+      retries: 10
+    networks: [internal]          # not published to the host
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db: {condition: service_healthy}
+    environment:
+      ENVIRONMENT: prod
+      DATABASE_URL: postgresql+psycopg://workforce_user:${POSTGRES_PASSWORD}@db:5432/workforce_roster
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY}
+      AUTH_REQUIRED: "true"
+      REQUIRE_APPROVAL: "true"
+      SEPARATE_APPROVER: ${SEPARATE_APPROVER:-false}
+      CORS_ORIGINS: https://${DOMAIN:?set DOMAIN}
+      TRUSTED_HOSTS: ${DOMAIN}
+      ENABLE_DOCS: "false"
+      FORCE_HTTPS_HEADERS: "true"
+      LOG_JSON: "true"
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+    networks: [internal]
+    logging: {driver: json-file, options: {max-size: "20m", max-file: "5"}}
+
+  frontend-build:
+    build: {context: ./frontend, args: {VITE_API_URL: /api/v1}}
+    volumes: [webroot:/srv-out]
+    command: ["sh", "-c", "rm -rf /srv-out/* && cp -r /srv/. /srv-out/"]
+    restart: "no"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on: [api, frontend-build]
+    ports: ["80:80", "443:443"]
+    environment: {DOMAIN: "${DOMAIN}"}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - webroot:/srv:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [internal, default]
+
+  backup:
+    image: postgres:16
+    restart: unless-stopped
+    depends_on:
+      db: {condition: service_healthy}
+    environment:
+      DATABASE_URL_LIBPQ: postgresql://workforce_user:${POSTGRES_PASSWORD}@db:5432/workforce_roster
+      BACKUP_DIR: /backups
+      RETENTION_DAYS: ${BACKUP_RETENTION_DAYS:-14}
+      BACKUP_HOUR_UTC: ${BACKUP_HOUR_UTC:-21}
+    volumes:
+      - ./deploy/scripts:/scripts:ro
+      - ${BACKUP_HOST_DIR:-./backups}:/backups
+    entrypoint: ["/bin/bash", "/scripts/backup_loop.sh"]
+    networks: [internal]
+
+networks:
+  internal: {}
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
+  webroot:

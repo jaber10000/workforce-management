@@ -1,0 +1,85 @@
+/* ==========================================================================
+   COLOUR THEMES — each palette overrides only the brand/accent tokens from
+   styles.css, for both light and dark. "lagoon" is the default in styles.css.
+   Selected with <html data-palette="…">.
+   ========================================================================== */
+
+:root[data-palette='indigo'][data-theme='light'] {
+  --brand: #4f46e5; --brand-2: #6366f1; --brand-hover: #4338ca; --brand-text: #4338ca;
+  --brand-soft: #eceeff; --brand-ring: rgba(79,70,229, 0.3); --on-brand: #ffffff;
+  --accent: #0b8f9a; --accent-soft: #def5f6; --logo-a: #4f46e5; --logo-b: #06a5c9;
+  --hero-grad: linear-gradient(118deg, #1b1866 0%, #4338ca 52%, #6d7bf0 100%);
+  --bg-glow-1: rgba(79,70,229,.13); --bg-glow-2: rgba(6,165,201,.10);
+}
+
+:root[data-palette='indigo'][data-theme='dark'] {
+  --brand: #818cf8; --brand-2: #a5b4fc; --brand-hover: #9aa5fb; --brand-text: #b4bdfd;
+  --brand-soft: rgba(129,140,248,.15); --brand-ring: rgba(129,140,248, 0.4); --on-brand: #0b0d2e;
+  --accent: #5ad1e0; --accent-soft: rgba(90,209,224,.15); --logo-a: #818cf8; --logo-b: #38bdf8;
+  --hero-grad: linear-gradient(118deg, #12154a 0%, #2d33a8 55%, #4a5fd6 100%);
+  --bg-glow-1: rgba(129,140,248,.12); --bg-glow-2: rgba(56,189,248,.10);
+}
+
+:root[data-palette='violet'][data-theme='light'] {
+  --brand: #7c3aed; --brand-2: #9b5cf6; --brand-hover: #6d28d9; --brand-text: #6d28d9;
+  --brand-soft: #f1e9ff; --brand-ring: rgba(124,58,237, 0.3); --on-brand: #ffffff;
+  --accent: #c2185b; --accent-soft: #fde7f1; --logo-a: #7c3aed; --logo-b: #e11d74;
+  --hero-grad: linear-gradient(118deg, #2a0f5e 0%, #6d28d9 52%, #a86bf5 100%);
+  --bg-glow-1: rgba(124,58,237,.13); --bg-glow-2: rgba(225,29,116,.09);
+}
+
+:root[data-palette='violet'][data-theme='dark'] {
+  --brand: #a78bfa; --brand-2: #c4b5fd; --brand-hover: #b7a1fc; --brand-text: #cbbcfd;
+  --brand-soft: rgba(167,139,250,.15); --brand-ring: rgba(167,139,250, 0.4); --on-brand: #1a0b3d;
+  --accent: #f472b6; --accent-soft: rgba(244,114,182,.15); --logo-a: #a78bfa; --logo-b: #f472b6;
+  --hero-grad: linear-gradient(118deg, #2a1060 0%, #5b2bb8 55%, #8b4fe0 100%);
+  --bg-glow-1: rgba(167,139,250,.13); --bg-glow-2: rgba(244,114,182,.10);
+}
+
+:root[data-palette='rose'][data-theme='light'] {
+  --brand: #e11d48; --brand-2: #f43f5e; --brand-hover: #be123c; --brand-text: #be123c;
+  --brand-soft: #ffe4ea; --brand-ring: rgba(225,29,72, 0.3); --on-brand: #ffffff;
+  --accent: #c2410c; --accent-soft: #ffedd5; --logo-a: #e11d48; --logo-b: #f97316;
+  --hero-grad: linear-gradient(118deg, #4c0519 0%, #be123c 52%, #f0607a 100%);
+  --bg-glow-1: rgba(225,29,72,.12); --bg-glow-2: rgba(249,115,22,.10);
+}
+
+:root[data-palette='rose'][data-theme='dark'] {
+  --brand: #fb7185; --brand-2: #fda4af; --brand-hover: #fc8c9c; --brand-text: #fda4af;
+  --brand-soft: rgba(251,113,133,.15); --brand-ring: rgba(251,113,133, 0.4); --on-brand: #3b0613;
+  --accent: #fdba74; --accent-soft: rgba(253,186,116,.15); --logo-a: #fb7185; --logo-b: #fb923c;
+  --hero-grad: linear-gradient(118deg, #3f0a1b 0%, #9f1239 55%, #d6405f 100%);
+  --bg-glow-1: rgba(251,113,133,.12); --bg-glow-2: rgba(253,186,116,.09);
+}
+
+:root[data-palette='amber'][data-theme='light'] {
+  --brand: #f59e0b; --brand-2: #fbbf24; --brand-hover: #d98a06; --brand-text: #8a4a06;
+  --brand-soft: #fff3d6; --brand-ring: rgba(245,158,11, 0.34); --on-brand: #2a1500;
+  --accent: #0f766e; --accent-soft: #d5f3ef; --logo-a: #f59e0b; --logo-b: #ea580c;
+  --hero-grad: linear-gradient(118deg, #451a03 0%, #a8500a 52%, #d98a1e 100%);
+  --bg-glow-1: rgba(245,158,11,.15); --bg-glow-2: rgba(15,118,110,.09);
+}
+
+:root[data-palette='amber'][data-theme='dark'] {
+  --brand: #fbbf24; --brand-2: #fcd34d; --brand-hover: #fccb4a; --brand-text: #fcd34d;
+  --brand-soft: rgba(251,191,36,.14); --brand-ring: rgba(251,191,36, 0.4); --on-brand: #2a1a00;
+  --accent: #2dd4bf; --accent-soft: rgba(45,212,191,.15); --logo-a: #fbbf24; --logo-b: #fb923c;
+  --hero-grad: linear-gradient(118deg, #3b2205 0%, #8a4d0a 55%, #bf7512 100%);
+  --bg-glow-1: rgba(251,191,36,.11); --bg-glow-2: rgba(45,212,191,.09);
+}
+
+:root[data-palette='forest'][data-theme='light'] {
+  --brand: #15803d; --brand-2: #22a455; --brand-hover: #116a33; --brand-text: #116a33;
+  --brand-soft: #dcf5e5; --brand-ring: rgba(21,128,61, 0.3); --on-brand: #ffffff;
+  --accent: #a16207; --accent-soft: #fdf3cf; --logo-a: #15803d; --logo-b: #65a30d;
+  --hero-grad: linear-gradient(118deg, #052e16 0%, #15803d 52%, #4cae78 100%);
+  --bg-glow-1: rgba(21,128,61,.13); --bg-glow-2: rgba(202,138,4,.10);
+}
+
+:root[data-palette='forest'][data-theme='dark'] {
+  --brand: #4ade80; --brand-2: #86efac; --brand-hover: #6ee79a; --brand-text: #86efac;
+  --brand-soft: rgba(74,222,128,.13); --brand-ring: rgba(74,222,128, 0.38); --on-brand: #04230f;
+  --accent: #facc15; --accent-soft: rgba(250,204,21,.14); --logo-a: #4ade80; --logo-b: #a3e635;
+  --hero-grad: linear-gradient(118deg, #06301a 0%, #146b38 55%, #2e8f57 100%);
+  --bg-glow-1: rgba(74,222,128,.11); --bg-glow-2: rgba(250,204,21,.09);
+}

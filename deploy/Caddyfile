@@ -1,0 +1,27 @@
+# Automatic HTTPS (Let's Encrypt) + reverse proxy + static frontend.
+# Needs DNS A/AAAA for {$DOMAIN} pointing at this server and ports 80/443 open.
+{$DOMAIN} {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+		Referrer-Policy no-referrer
+		-Server
+	}
+	handle /api/* {
+		reverse_proxy api:8000
+	}
+	handle /health {
+		reverse_proxy api:8000
+	}
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+	log {
+		output stdout
+		format json
+	}
+}
