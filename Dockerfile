@@ -11,4 +11,4 @@ USER appuser
 EXPOSE 8000
 HEALTHCHECK CMD python -c "import urllib.request;urllib.request.urlopen('http://localhost:8000/ready')" || exit 1
 # One worker on purpose: the login-lockout counter lives in process memory. Scale with a shared store first.
-CMD ["./entrypoint.sh"]
+CMD ["sh", "./entrypoint.sh"]
